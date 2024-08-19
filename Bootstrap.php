@@ -24,7 +24,7 @@ class FFConfirmField extends \FluentForm\App\Services\FormBuilder\BaseFieldManag
             'general'
         );
         
-        add_filter("fluentform_validate_input_item_{$this->key}", [$this, 'validate'], 10, 5);
+        add_filter("fluentform/validate_input_item_{$this->key}", [$this, 'validate'], 10, 5);
         
         $this->hideFieldFormEntries();
     }
@@ -168,7 +168,7 @@ class FFConfirmField extends \FluentForm\App\Services\FormBuilder\BaseFieldManag
     
     private function hideFieldFormEntries()
     {
-        add_filter('fluentform_all_entry_labels', function ($formLabels, $form_id) {
+        add_filter('fluentform/all_entry_labels', function ($formLabels, $form_id) {
             $form = wpFluent()->table('fluentform_forms')->find($form_id);
             $confirmField = FormFieldsParser::getInputsByElementTypes($form, ['confirm_field']);
             if (is_array($confirmField) && !empty($confirmField)) {
@@ -177,7 +177,7 @@ class FFConfirmField extends \FluentForm\App\Services\FormBuilder\BaseFieldManag
             return $formLabels;
         }, 10, 2);
         
-        add_filter('fluentform_all_entry_labels_with_payment', function ($formLabels, $test, $form) {
+        add_filter('fluentform/all_entry_labels_with_payment', function ($formLabels, $test, $form) {
             $confirmField = FormFieldsParser::getInputsByElementTypes($form, ['confirm_field']);
             if (is_array($confirmField) && !empty($confirmField)) {
                 ArrayHelper::forget($formLabels, array_keys($confirmField));
